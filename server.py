@@ -42,8 +42,7 @@ def index():
 def get_code():
     global data
     data = request.json
-    print("^^^^^^^^^^^^^^^^^^^")
-    print(data)
+    print("%s  ----------from js"% data)
     return data
 
 if __name__ == '__main__':
