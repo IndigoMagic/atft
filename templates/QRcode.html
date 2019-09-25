@@ -101,10 +101,10 @@
 	<div>
 		<form action="" method="post">
 			    <input type="file" value="sdgsdg" id="demo_input" /> 
-			    <textarea name="img1" id="result" rows=30 cols=600></textarea> 
+			<!--     <textarea name="img1" id="result" rows=30 cols=600></textarea>  -->
 			    <p id="img_area">
-
-				<div class="sitetip">图片img标签展示：</div><img src="{{ data_for_js.img.img1 }}" alt="" />
+				<div class="sitetip"></div>
+				<img src="{{ data_for_js.img.img1 }}" alt="" />
 			</p> 
 		</form>
 	</div>
@@ -150,7 +150,7 @@
 					// "text2": "",
 				},
 				"img": {
-					"img1": document.getElementById("result").value,
+					"img1": img_base64,
 				}
 			}
 			console.log("$$$$$$$$$$$$$$$$$$$$$$$$$")
@@ -198,9 +198,10 @@
 			reader.readAsDataURL(file); //这个 result 为 DataURL, DataURL 可直接 赋值给 img.src 
 			console.log("嘤嘤嘤~~~~");
 			reader.onload = function (e) {
-				result.innerHTML = this.result; //在textarea展示base64文档
+				// result.innerHTML = this.result; //在textarea展示base64文档
 				// alert(this.result)
-				img_area.innerHTML = '<div class="sitetip">图片img标签展示：</div><img src="' + this.result + '" alt=""/>';
+				img_base64 = this.result
+				img_area.innerHTML = '<div class="sitetip"></div><img src="' + this.result + '" alt="" />';
 				// 展示图片
 			}
 		}
