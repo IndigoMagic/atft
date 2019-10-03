@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>跨端文件传输(Across Terminals File Transfer)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <script type="text/javascript" src="./jquery.min.js"></script>
+    <script type="text/javascript" src="./qrcode.min.js"></script>
+    <link rel="stylesheet" href="./atft.css">
+    <link rel="shortcut icon" href="./cat.ico" type="image/x-icon" />
+
+</head>
+
+<body>
+    <h2 style="float: right">生成本页的二维码</h2>
+    <div>
+        <div id="qrcodeofmy"></div>
+    </div>
+
+    <h2>文本转二维码</h2>
+    <div class="text_copy_and_QR">
+        <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
+            autofocus>{{ data_for_js.text.text1 }}</textarea>
+        <div id="qrcode1" class="qrcode"></div>
+        <div class="btn_copy_text" id="btn1">复制并且生成二维码</div>
+        <div class="add_del_btn">增加</div>
+        <div class="add_del_btn">删除</div>
+    </div>
+            
+    <div>
+            <input type="file" value="sdgsdg" id="demo_input" /> 
+            <div id="img_area">
+            <div class="sitetip"></div>
+            <img src="{{ data_for_js.img.img1 }}" alt="" />
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="./atft.js"></script>
+
+</html>
