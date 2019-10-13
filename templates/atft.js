@@ -1,9 +1,89 @@
+function get_data() {
+    console.log("页面加载之初步就请求来data数据")
+    var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
+    httpRequest.open('GET', host + 'getdata/', true); //第二步：打开连接/***发送json格式文件必须设置请求头 ；如下 - */
+    httpRequest.setRequestHeader("Content-type", "application/json");//设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+    httpRequest.send();//发送请求 将json写入send中
+    // 获取数据后的处理程序
+    httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
+        if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
+            var data_form_server = httpRequest.responseText;//获取到服务端返回的数据
+            console.log(data_form_server);
+
+
+            for (i=0;i<data_form_server.text.length; i++){
+                console.log(data_form_server.text[i])
+                // 要把遍历出来的数据传到页面的对应位置
+            }
+        }
+    };
+
+}
+
+var tpl = `<div class="text_box">
+<textarea name="texttocode" id="text2" class="text" cols="40" rows="7" placeholder="请输入文本！"
+    autofocus></textarea><div id="qrcode2" class="qrcode"></div><div class="btn_c">
+<div class="del_btn">删除</div>
+<div class="btn_copy_text" id="btn2">Copy</div>
+<div class="add_btn">增加</div></div></div>
+`
+
+function initialize() {
+    data = {
+        "text":[
+            "我是第1个！！",
+            "我是第2个！！",
+            "我是第3个！！",
+            "我是第4个！！"
+        ]
+    }
+    
+    
+}
+
+
+
+
+
+
+function addbox() {
+    var main = document.getElementsByClassName("container")[0];
+    var box = document.getElementsByClassName("text_box")[0];
+    // box.childNodes[0].nextElementSibling.childNodes[0].innerHTML="haha";
+    // // var caozuo = box.childNodes[0].innerText
+    // var caozuo = box.childNodes[0].nextElementSibling.childNodes[0];
+    // console.log(caozuo)
+    // console.log(box.childNodes[0].nextElementSibling.childNodes[0])
+    var newNode = box.cloneNode(true);
+    main.appendChild(newNode);
+    console.log("add a text_box OK");
+    // var main = document.getElementsByClassName("container")[0];
+    document.getElementsByClassName("text_box")[document.getElementsByClassName("text_box").length-1].childNodes[0].nextElementSibling.innerHTML = "hahah";
+    // box_copy.childNodes[0].nextElementSibling.childNodes[0]="haha";
+    // console.log(box_copy)
+    // console.log(box_copy.childNodes[0].nextElementSibling.t)
+
+}
+
+document.getElementById("btnadd").addEventListener("click",addbox);
+
+function delbox() {
+    var main = document.getElementsByClassName("container")[0];
+    var box = document.getElementsByClassName("text_box")[document.getElementsByClassName("text_box").length-1];
+    main.removeChild(box);
+    console.log("del a text_box OK")
+}
+
+document.getElementById("btndel").addEventListener("click",delbox);
+
+
 var host = "192.168.1.1"
-document.getElementById("btn1").addEventListener("click", makeCode);
+document.getElementsByClassName("btn_copy_text")[0].addEventListener("click", makeCode);
+document.getElementsByClassName("btn_copy_text")[1].addEventListener("click", makeCode);
 
 var qrcode = new QRCode(document.getElementById("qrcode1"), {
-    width: 200,
-    height: 200
+    width: 156,
+    height: 156
 });
 // 二维码生成
 function makeCode() {
@@ -27,7 +107,7 @@ var qrcodeofmy = new QRCode(document.getElementById("qrcodeofmy"), {
 // 生成本机IP的二维码
 qrcodeofmy.makeCode(host)
 
-document.getElementById("btn1").addEventListener("click", send_data);
+// document.getElementById("btn1").addEventListener("click", send_data);
 // 发送data到服务端 
 function send_data() {
 
@@ -37,7 +117,7 @@ function send_data() {
             // "text2": "",
         },
         "img": {
-            "img1": img_base64,
+            "img1": "",
         }
     }
     console.log("$$$$$$$$$$$$$$$$$$$$$$$$$")
