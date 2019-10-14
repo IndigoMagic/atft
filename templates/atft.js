@@ -1,3 +1,5 @@
+
+host = "http://192.168.1.2:5000/"
 function get_data() {
     console.log("页面加载之初步就请求来data数据")
     var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
@@ -10,14 +12,26 @@ function get_data() {
             var data_form_server = httpRequest.responseText;//获取到服务端返回的数据
             console.log(data_form_server);
 
-            for (i=0;i<data_form_server.text.length; i++){
+            for (i = 0; i < data_form_server.text.length; i++) {
                 console.log(data_form_server.text[i])
                 // 要把遍历出来的数据传到页面的对应位置
+                var tpl_start = `<div class="text_box">
+                <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
+                autofocus>`+data_form_server.text[i]+`</textarea><div id="qrcode1" class="qrcode"></div>
+                <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
+                </div>`
+
+                var box_big = document.getElementsByClassName("container")[0];
+                console.log(box_big)
+                box_big.insertAdjacentHTML('beforeend', tpl_start)
+
             }
         }
     };
 
 }
+
+get_data();
 
 var tpl = `<div class="text_box">
 <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
@@ -27,15 +41,15 @@ var tpl = `<div class="text_box">
 
 function initialize() {
     data = {
-        "text":[
+        "text": [
             "我是第1个！！",
             "我是第2个！！",
             "我是第3个！！",
             "我是第4个！！"
         ]
     }
-    
-    
+
+
 }
 
 
@@ -52,23 +66,23 @@ function addbox() {
     // document.getElementsByClassName("text_box")[document.getElementsByClassName("text_box").length-1].childNodes[0].nextElementSibling.innerHTML = "";
     var box_big = document.getElementsByClassName("container")[0];
     console.log(box_big)
-    box_big.insertAdjacentHTML('beforeend',tpl)
+    box_big.insertAdjacentHTML('beforeend', tpl)
     // console.log(tpl)
 }
 
-document.getElementById("btnadd").addEventListener("click",addbox);
+document.getElementById("btnadd").addEventListener("click", addbox);
 
 function delbox() {
     var main = document.getElementsByClassName("container")[0];
-    var box = document.getElementsByClassName("text_box")[document.getElementsByClassName("text_box").length-1];
+    var box = document.getElementsByClassName("text_box")[document.getElementsByClassName("text_box").length - 1];
     main.removeChild(box);
     console.log("del a text_box OK")
 }
 
-document.getElementById("btndel").addEventListener("click",delbox);
+document.getElementById("btndel").addEventListener("click", delbox);
 
 
-var host = "192.168.1.1"
+var host = "192.168.1.2"
 document.getElementsByClassName("btn_copy_text")[0].addEventListener("click", makeCode);
 document.getElementsByClassName("btn_copy_text")[1].addEventListener("click", makeCode);
 

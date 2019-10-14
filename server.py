@@ -20,15 +20,20 @@ app = Flask(__name__,static_folder="./templates")
 app.debug = True
 
 global data
+# data = {
+#     "text":{
+#         "text1":"",
+#     },
+#         "img":{
+#         "img1":"",
+#         # "img2":"base64",        
+#     }
+# }
+
 data = {
-    "text":{
-        "text1":"",
-    },
-        "img":{
-        "img1":"",
-        # "img2":"base64",        
-    }
+    "text":["111","222","333"]
 }
+
 cishu = 0
 @app.route('/')
 def index():
@@ -37,12 +42,17 @@ def index():
     cishu += 1
     print("这是第%s次请求"% cishu)
     print(data)
-    return render_template("QRcode.html",ip_forjs=ip_frompy,data_for_js=data)
+    return render_template("QRcode.html",ip_forjs=ip_frompy)
 @app.route("/savedata/",methods=["POST"])
 def get_code():
     global data
     data = request.json
     print("%s  ----------from js"% data)
+    return data
+
+@app.route("/getdata/",methods=["GET"])
+def send_code():
+    print("有人来要了个data")
     return data
 
 if __name__ == '__main__':
