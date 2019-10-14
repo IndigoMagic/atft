@@ -1,5 +1,5 @@
 
-host = "http://192.168.1.2:5000/"
+// host = "http://192.168.1.2:5000/"
 function get_data() {
     console.log("页面加载之初步就请求来data数据")
     var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
@@ -31,7 +31,31 @@ function get_data() {
 
 }
 
-get_data();
+// get_data();
+data_form_server = {
+    "text":["haha","aaa"]
+}
+
+console.log(box_big)
+function create_box() {
+    for (i = 0; i < data_form_server.text.length; i++) {
+        console.log(data_form_server.text[i])
+        // 要把遍历出来的数据传到页面的对应位置
+        var tpl_start = `<div class="text_box">
+        <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
+        autofocus>`+data_form_server.text[i]+`</textarea><div id="qrcode1" class="qrcode"></div>
+        <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
+        </div>`
+        console.log("这是第"+i+"次循环")
+        var box_big = document.getElementsByClassName("container")[0];
+        console.log(box_big)
+        box_big.insertAdjacentHTML('beforeend', tpl_start)
+
+    }
+}
+
+create_box();
+
 
 var tpl = `<div class="text_box">
 <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"

@@ -31,7 +31,7 @@ global data
 # }
 
 data = {
-    "text":["111","222","333"]
+    "text":[]
 }
 
 cishu = 0
