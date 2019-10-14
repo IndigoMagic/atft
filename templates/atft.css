@@ -21,10 +21,11 @@
     margin: 0 auto;
 }
 
+
 .text_box {
     position: relative;
     margin: 1% auto;
-    max-width: 464px;
+    max-width: 434px;
     border: #4caf50 2px solid;
 
 }
@@ -43,15 +44,15 @@
     height: 160px;
     border: 2px solid #FDC72F;
 }
-.btn_c {
+/* .btn_c {
     vertical-align: top;
     display: inline-block;
     border: #D64078 2px solid;
     position: relative;
     width: 100px;
     height: 160px;
-}
-.del_btn {
+} */
+/* .del_btn {
     background-color: #4caf50;
     position: absolute;
     right: 0px;
@@ -61,20 +62,25 @@
     width: 96px;
     transition: background-color .2s;
 
-}
+} */
 .btn_copy_text {
+    vertical-align: top;
+    display: inline-block;
     background-color: #4caf50;
+    border: #D64078 2px solid;
     position: absolute;
     right: 0px;
-    top: 60px;
-    height: 32px;
+    /* word-wrap:break-word; */
+    top: 0px;
+    height: 160px;
     text-align: center;
-    width: 96px;
+    line-height: 50px;
+    width: 66px;
     transition: background-color .2s;
 }
 
 
-.add_btn {
+/* .add_btn {
     background-color: #4caf50;
     position: absolute;
     right: 0px;
@@ -83,7 +89,7 @@
     text-align: center;
     width: 96px;
     transition: background-color .2s;
-}
+} */
 /* #qrcodeofmy{
     width: 100px;
     float: right;;

@@ -10,7 +10,6 @@ function get_data() {
             var data_form_server = httpRequest.responseText;//获取到服务端返回的数据
             console.log(data_form_server);
 
-
             for (i=0;i<data_form_server.text.length; i++){
                 console.log(data_form_server.text[i])
                 // 要把遍历出来的数据传到页面的对应位置
@@ -21,12 +20,10 @@ function get_data() {
 }
 
 var tpl = `<div class="text_box">
-<textarea name="texttocode" id="text2" class="text" cols="40" rows="7" placeholder="请输入文本！"
-    autofocus></textarea><div id="qrcode2" class="qrcode"></div><div class="btn_c">
-<div class="del_btn">删除</div>
-<div class="btn_copy_text" id="btn2">Copy</div>
-<div class="add_btn">增加</div></div></div>
-`
+<textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
+    autofocus>我是模板</textarea><div id="qrcode1" class="qrcode"></div>
+<div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
+</div>`
 
 function initialize() {
     data = {
@@ -45,24 +42,18 @@ function initialize() {
 
 
 
-
 function addbox() {
-    var main = document.getElementsByClassName("container")[0];
-    var box = document.getElementsByClassName("text_box")[0];
-    // box.childNodes[0].nextElementSibling.childNodes[0].innerHTML="haha";
-    // // var caozuo = box.childNodes[0].innerText
-    // var caozuo = box.childNodes[0].nextElementSibling.childNodes[0];
-    // console.log(caozuo)
-    // console.log(box.childNodes[0].nextElementSibling.childNodes[0])
-    var newNode = box.cloneNode(true);
-    main.appendChild(newNode);
-    console.log("add a text_box OK");
     // var main = document.getElementsByClassName("container")[0];
-    document.getElementsByClassName("text_box")[document.getElementsByClassName("text_box").length-1].childNodes[0].nextElementSibling.innerHTML = "hahah";
-    // box_copy.childNodes[0].nextElementSibling.childNodes[0]="haha";
-    // console.log(box_copy)
-    // console.log(box_copy.childNodes[0].nextElementSibling.t)
-
+    // var box = document.getElementsByClassName("text_box")[0];
+    // var newNode = box.cloneNode(true);
+    // console.log(typeof(newNode))
+    // main.appendChild(newNode);
+    // console.log("add a text_box OK");
+    // document.getElementsByClassName("text_box")[document.getElementsByClassName("text_box").length-1].childNodes[0].nextElementSibling.innerHTML = "";
+    var box_big = document.getElementsByClassName("container")[0];
+    console.log(box_big)
+    box_big.insertAdjacentHTML('beforeend',tpl)
+    // console.log(tpl)
 }
 
 document.getElementById("btnadd").addEventListener("click",addbox);
