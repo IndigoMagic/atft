@@ -126,15 +126,16 @@ function makeCodes(index) {
         });
         var elText = main.children[0];
         var input = main.children[0]
-        copyText(elText.value,input)
-        // elText.select(); // 选中文本
-        // document.execCommand("copy"); // 执行浏览器复制命令
-        // alert("复制成功");
         if (!elText.value) {
             alert("Input a text");
             elText.focus();
             return;
         }
+        copyText(elText.value,input)
+        // elText.select(); // 选中文本
+        // document.execCommand("copy"); // 执行浏览器复制命令
+        // alert("复制成功");
+
         qrcode.makeCode(elText.value);
     }
     
