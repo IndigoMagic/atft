@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>跨端文件传输(Across Terminals File Transfer)</title>
+    <title>跨端文本传输(Across Terminals Text Transfer)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-    <script type="text/javascript" src="./jquery.min.js"></script>
-    <script type="text/javascript" src="./qrcode.min.js"></script>
-    <link rel="stylesheet" href="./atft.css">
-    <link rel="shortcut icon" href="./cat.ico" type="image/x-icon" />
-
+    <script type="text/javascript" src="{{ url_for('static',filename='jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='qrcode.min.js') }}"></script>
+    <link href="{{ url_for('static',filename='atft.css') }}" type="text/css" rel="stylesheet" />
+    <link rel="shortcut icon" href="{{ url_for('static',filename='cat.ico') }}" type="image/x-icon" />
 </head>
 
 <body>
@@ -17,43 +15,10 @@
         <p>本页的二维码</p>
         <div id="qrcodeofmy"></div>
     </div>
-<div class="container" id="container1">
-<!-- <div class="text_box">
-        <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
-            autofocus>1</textarea><div id="qrcode1" class="qrcode"></div>
-        <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
-        </div>
-
-<div class="text_box">
-    <textarea name="texttocode" id="text2" class="text" cols="40" rows="7" placeholder="请输入文本！"
-        autofocus>2</textarea><div id="qrcode2" class="qrcode"></div>
-    <div class="btn_copy_text" id="btn2">Copy</div>
-</div>
-<div class="text_box">
-    <textarea name="texttocode" id="text2" class="text" cols="40" rows="7" placeholder="请输入文本！"
-        autofocus>3</textarea><div id="qrcode2" class="qrcode"></div>
-    <div class="btn_copy_text" id="btn2">Copy</div>
-</div> -->
-
-</div>
-<button id="btnadd">add按钮</button>
-<button id="btndel">del按钮</button>
-<!-- <div class="text_box">
-    <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
-        autofocus>{{ data_for_js.text.text1 }}</textarea><div id="qrcode1" class="qrcode"></div><div class="btn_c">
-    <div class="del_btn">删除</div>
-    <div class="btn_copy_text" id="btn1">Copy</div>
-    <div class="add_btn">增加</div></div></div> -->
-
-
-    <!-- <div class="img_box">
-            <input type="file" value="sdgsdg" id="demo_input" /> 
-            <div id="img_area">
-            <div class="sitetip"></div>
-            <img src="{{ data_for_js.img.img1 }}" alt="" />
-        </div>
-    </div> -->
+    <div class="container" id="container">
+    </div>
+    <div id="btn_add_del"><div id="btnadd">增加</div><div id="btndel">删除</div></div>
 </body>
-<script type="text/javascript" src="./atft.js"></script>
-
+<!-- <script type="text/javascript" src="./atft.js"></script> -->
+<script type="text/javascript" src="{{ url_for('static',filename='atft.js') }}"></script>
 </html>

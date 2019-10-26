@@ -20,15 +20,6 @@ app = Flask(__name__,static_folder="./templates")
 app.debug = True
 
 global data
-# data = {
-#     "text":{
-#         "text1":"",
-#     },
-#         "img":{
-#         "img1":"",
-#         # "img2":"base64",        
-#     }
-# }
 
 data = {
     "text":[]
@@ -38,11 +29,13 @@ cishu = 0
 @app.route('/')
 def index():
     global cishu  # 判断第几次请求的全局变量计数器，做全局变量测试用的
-    ip_frompy = {"ip":"http://"+myip+":5000/"} # 获取本机真实的IP
+    # ip_frompy = {"ip":"http://"+myip+":5000/"} # 获取本机真实的IP
     cishu += 1
     print("这是第%s次请求"% cishu)
     print(data)
-    return render_template("QRcode.html",ip_forjs=ip_frompy)
+    return render_template("demo.html")
+
+
 @app.route("/savedata/",methods=["POST"])
 def get_code():
     global data

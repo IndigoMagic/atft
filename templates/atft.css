@@ -1,99 +1,185 @@
 * {
     box-sizing: border-box;
 }
-.qrcodeofmy_fixed {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 140px;
-    height: 140px;
-    border: #FDC72F 3px solid;
-    background-color: antiquewhite;
-}
-.qrcodeofmy_fixed p {
-    margin: 0 auto;
-    text-align: center;
-    font-size: 1em;
-    /* border: #FDC72F 3px solid; */
-    border-bottom: #FDC72F 3px solid;
-}
-#qrcodeofmy img {
-    margin: 0 auto;
-}
 
+@media screen and (min-width:434px) {
 
-.text_box {
-    position: relative;
-    margin: 1% auto;
-    max-width: 434px;
-    border: #4caf50 2px solid;
+    .qrcodeofmy_fixed {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 140px;
+        height: 140px;
+        border: #FDC72F 3px solid;
+        background-color: antiquewhite;
+    }
+    .qrcodeofmy_fixed p {
+        margin: 0 auto;
+        text-align: center;
+        font-size: 1em;
+        /* border: #FDC72F 3px solid; */
+        border-bottom: #FDC72F 3px solid;
+    }
+    #qrcodeofmy img {
+        margin: 0 auto;
+    }
+    
+    
+    .text_box {
+        position: relative;
+        margin: 1% auto;
+        max-width: 434px;
+        border: #4caf50 2px solid;
+    
+    }
+    .text {
+        display: inline-block;
+        max-width: 200px;
+        height: 160px;
+        resize: none;
+        vertical-align: top;
+        border: #4caf50 2px solid;
+    }
+    
+    .qrcode {
+        display: inline-block;
+        width: 160px;
+        height: 160px;
+        border: 2px solid #FDC72F;
+    }
+    
+    #btn_add_del {
+        position: fixed;
+        top: 160px;
+        right: 0;
+        width: 140px;
+        height: 40px;
+        border: #4caf50 3px solid;
+        background-color: antiquewhite;
+    }
+    
+    .btn_copy_text {
+        vertical-align: top;
+        display: inline-block;
+        background-color: #4caf50;
+        border: #D64078 2px solid;
+        position: absolute;
+        right: 0px;
+        /* word-wrap:break-word; */
+        top: 0px;
+        height: 160px;
+        text-align: center;
+        line-height: 50px;
+        width: 66px;
+        transition: background-color .2s;
+    }
+    
+    #btnadd {
+        display: inline-block;
+        width: 50%;
+        /* margin: 1em; */
+        text-align: center;
+        border: #4caf50 3px solid;
+    }
+    #btndel {
+        display: inline-block;
+        width: 50%;
+        /* margin: 1em; */
+        text-align: center;
+        border: #4caf50 3px solid;
+    }
+  }
+  @media screen and (max-width:433px) {
+    #btnadd {
+        display: inline-block;
+        width: 50%;
+        /* margin: 1em; */
+        text-align: center;
+        border: #4caf50 3px solid;
+    }
+    #btndel {
+        display: inline-block;
+        width: 50%;
+        /* margin: 1em; */
+        text-align: center;
+        border: #4caf50 3px solid;
+    }
 
-}
-.text {
-    display: inline-block;
-    max-width: 200px;
-    height: 160px;
-    resize: none;
-    vertical-align: top;
-    border: #4caf50 2px solid;
-}
+    #btn_add_del {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 40px;
+        border: #4caf50 3px solid;
+        background-color: antiquewhite;
+    }
 
-.qrcode {
-    display: inline-block;
-    width: 160px;
-    height: 160px;
-    border: 2px solid #FDC72F;
-}
-/* .btn_c {
-    vertical-align: top;
-    display: inline-block;
-    border: #D64078 2px solid;
-    position: relative;
-    width: 100px;
-    height: 160px;
-} */
-/* .del_btn {
-    background-color: #4caf50;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    height: 32px;
-    text-align: center;
-    width: 96px;
-    transition: background-color .2s;
+    body {
+        margin-bottom: 60px;
+    }
+    .qrcodeofmy_fixed {
+        display: none;
+        position: fixed;
+        top: 0;
+        /* right: 0; */
+        width: 140px;
+        height: 140px;
+        border: #FDC72F 3px solid;
+        background-color: antiquewhite;
+    }
+    .qrcodeofmy_fixed p {
+        margin: 0 auto;
+        text-align: center;
+        font-size: 1em;
+        /* border: #FDC72F 3px solid; */
+        border-bottom: #FDC72F 3px solid;
+    }
+    #qrcodeofmy img {
+        margin: 0 auto;
+    }
+    
+    
+    .text_box {
+        position: relative;
+        margin: 1% auto;
+        max-width: 434px;
+        border: #4caf50 2px solid;
+    
+    }
+    .text {
+        display: inline-block;
+        max-width: 200px;
+        height: 160px;
+        resize: none;
+        vertical-align: top;
+        border: #4caf50 2px solid;
+    }
+    
+    .qrcode {
+        display: inline-block;
+        width: 160px;
+        height: 160px;
+        border: 2px solid #FDC72F;
+        display: none;
+    }
+    
 
-} */
-.btn_copy_text {
-    vertical-align: top;
-    display: inline-block;
-    background-color: #4caf50;
-    border: #D64078 2px solid;
-    position: absolute;
-    right: 0px;
-    /* word-wrap:break-word; */
-    top: 0px;
-    height: 160px;
-    text-align: center;
-    line-height: 50px;
-    width: 66px;
-    transition: background-color .2s;
-}
+    
+    .btn_copy_text {
+        vertical-align: top;
+        display: inline-block;
+        background-color: #4caf50;
+        border: #D64078 2px solid;
+        position: absolute;
+        right: 0px;
+        /* word-wrap:break-word; */
+        top: 0px;
+        height: 160px;
+        text-align: center;
+        line-height: 50px;
+        width: 66px;
+        transition: background-color .2s;
+    }
+  }
 
-
-/* .add_btn {
-    background-color: #4caf50;
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    height: 32px;
-    text-align: center;
-    width: 96px;
-    transition: background-color .2s;
-} */
-/* #qrcodeofmy{
-    width: 100px;
-    float: right;;
-    height: 100px;
-    margin-top: 0px;
-    border: 10px solid red;
-} */

@@ -1,17 +1,35 @@
 
-// host = "http://192.168.1.2:5000/"
+console.log("start!!!!!!!!!!!!!!!!!")
+var domain = document.domain;
+console.log(domain)
+host = "http://"+domain+":5000/"
 function get_data() {
     console.log("页面加载之初步就请求来data数据")
     var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
+    console.log(host);
+    console.log(host + 'getdata/');
     httpRequest.open('GET', host + 'getdata/', true); //第二步：打开连接/***发送json格式文件必须设置请求头 ；如下 - */
     httpRequest.setRequestHeader("Content-type", "application/json");//设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
     httpRequest.send();//发送请求 将json写入send中
     // 获取数据后的处理程序
     httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
         if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
-            var data_form_server = httpRequest.responseText;//获取到服务端返回的数据
-            console.log(data_form_server);
+            var data_form_server_text = httpRequest.responseText;//获取到服务端返回的数据
+            console.log(typeof(data_form_server_text))
+            console.log(data_form_server_text);
+            var data_form_server = JSON.parse(data_form_server_text)
 
+            if (data_form_server.text.length < 1) {
+                var tpl_start = `<div class="text_box">
+                <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
+                autofocus>`+`</textarea><div id="qrcode1" class="qrcode"></div>
+                <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
+                </div>`
+                console.log("啥也没有~")
+                var box_big = document.getElementsByClassName("container")[0];
+                console.log(box_big)
+                box_big.insertAdjacentHTML('beforeend', tpl_start)
+            }
             for (i = 0; i < data_form_server.text.length; i++) {
                 console.log(data_form_server.text[i])
                 // 要把遍历出来的数据传到页面的对应位置
@@ -20,78 +38,35 @@ function get_data() {
                 autofocus>`+data_form_server.text[i]+`</textarea><div id="qrcode1" class="qrcode"></div>
                 <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
                 </div>`
-
+                console.log("这是第"+i+"次循环")
                 var box_big = document.getElementsByClassName("container")[0];
                 console.log(box_big)
                 box_big.insertAdjacentHTML('beforeend', tpl_start)
 
             }
+            addclick();
         }
     };
 
 }
 
-// get_data();
-data_form_server = {
-    "text":["haha","aaa"]
-}
-
-console.log(box_big)
-function create_box() {
-    for (i = 0; i < data_form_server.text.length; i++) {
-        console.log(data_form_server.text[i])
-        // 要把遍历出来的数据传到页面的对应位置
-        var tpl_start = `<div class="text_box">
-        <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
-        autofocus>`+data_form_server.text[i]+`</textarea><div id="qrcode1" class="qrcode"></div>
-        <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
-        </div>`
-        console.log("这是第"+i+"次循环")
-        var box_big = document.getElementsByClassName("container")[0];
-        console.log(box_big)
-        box_big.insertAdjacentHTML('beforeend', tpl_start)
-
-    }
-}
-
-create_box();
+get_data();
 
 
 var tpl = `<div class="text_box">
 <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
-    autofocus>我是模板</textarea><div id="qrcode1" class="qrcode"></div>
+    autofocus></textarea><div id="qrcode1" class="qrcode"></div>
 <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
 </div>`
 
-function initialize() {
-    data = {
-        "text": [
-            "我是第1个！！",
-            "我是第2个！！",
-            "我是第3个！！",
-            "我是第4个！！"
-        ]
-    }
-
-
-}
-
-
-
-
-
+// 增删节点
 function addbox() {
-    // var main = document.getElementsByClassName("container")[0];
-    // var box = document.getElementsByClassName("text_box")[0];
-    // var newNode = box.cloneNode(true);
-    // console.log(typeof(newNode))
-    // main.appendChild(newNode);
-    // console.log("add a text_box OK");
-    // document.getElementsByClassName("text_box")[document.getElementsByClassName("text_box").length-1].childNodes[0].nextElementSibling.innerHTML = "";
     var box_big = document.getElementsByClassName("container")[0];
     console.log(box_big)
     box_big.insertAdjacentHTML('beforeend', tpl)
-    // console.log(tpl)
+    removeclick();
+    addclick();
+    send_data();
 }
 
 document.getElementById("btnadd").addEventListener("click", addbox);
@@ -101,32 +76,113 @@ function delbox() {
     var box = document.getElementsByClassName("text_box")[document.getElementsByClassName("text_box").length - 1];
     main.removeChild(box);
     console.log("del a text_box OK")
+    send_data();
 }
 
 document.getElementById("btndel").addEventListener("click", delbox);
 
 
-var host = "192.168.1.2"
-document.getElementsByClassName("btn_copy_text")[0].addEventListener("click", makeCode);
-document.getElementsByClassName("btn_copy_text")[1].addEventListener("click", makeCode);
 
-var qrcode = new QRCode(document.getElementById("qrcode1"), {
-    width: 156,
-    height: 156
-});
-// 二维码生成
-function makeCode() {
-    var elText = document.getElementById("text1");
-    elText.select(); // 选中文本
-    document.execCommand("copy"); // 执行浏览器复制命令
-    // alert("复制成功");
-    if (!elText.value) {
-        alert("Input a text");
-        elText.focus();
-        return;
+function addclick() {
+    for (let index = 0; index < document.getElementsByClassName("btn_copy_text").length; index++) {
+        document.getElementsByClassName("btn_copy_text")[index].addEventListener("click", makeCodes(index));
+        document.getElementsByClassName("btn_copy_text")[index].addEventListener("click", send_data);
+        console.log("现在给第"+index+"个按钮加点击事件")
     }
-    qrcode.makeCode(elText.value);
 }
+
+function removeclick(){
+    for (let index = 0; index < document.getElementsByClassName("btn_copy_text").length; index++) {
+        document.getElementsByClassName("btn_copy_text")[index].removeEventListener("click", makeCodes(index));
+        document.getElementsByClassName("btn_copy_text")[index].removeEventListener("click", send_data);
+        console.log("现在删除第"+index+"个按钮的点击事件")
+    }
+}
+
+// addclick();
+
+function get_every_text(){
+    for (let index = 0; index < document.getElementsByClassName("text").length; index++) {
+        var textvalue =  document.getElementsByClassName("text")[index].value;
+        console.log(textvalue)
+
+    }
+}
+
+get_every_text();
+
+
+// 二维码生成
+function makeCodes(index) {
+    return function(){
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        // console.log(index);
+        // 获取胸弟元素的 值 TODO
+        var main = document.getElementById("container").children[index];
+        main.children[1].innerHTML = ""
+        var qrcode = new QRCode(main.children[1], {
+            width: 156,
+            height: 156
+        });
+        var elText = main.children[0];
+        var input = main.children[0]
+        copyText(elText.value,input)
+        // elText.select(); // 选中文本
+        // document.execCommand("copy"); // 执行浏览器复制命令
+        // alert("复制成功");
+        if (!elText.value) {
+            alert("Input a text");
+            elText.focus();
+            return;
+        }
+        qrcode.makeCode(elText.value);
+    }
+    
+}
+
+function copyText(text,input) {
+    // 数字没有 .length 不能执行selectText 需要转化成字符串
+    console.log("进入copyText")
+    console.log(text)
+    const textString = text.toString();
+    if (!input) {
+        input = document.createElement('input');
+        input.id = "copy-input";
+        input.readOnly = "readOnly";        // 防止ios聚焦触发键盘事件
+        input.style.position = "absolute";
+        input.style.left = "-1000px";
+        input.style.zIndex = "-1000";
+        document.body.appendChild(input)
+    }
+
+
+    input.value = textString;
+    // ios必须先选中文字且不支持 input.select();
+    selectText(input, 0, textString.length);
+    if (document.execCommand('copy')) {
+        document.execCommand('copy');
+        alert('已复制到粘贴板');
+    } else {
+        console.log('不兼容');
+    }
+    input.blur();
+    // input自带的select()方法在苹果端无法进行选择，所以需要自己去写一个类似的方法
+    // 选择文本。createTextRange(setSelectionRange)是input方法
+    function selectText(textbox, startIndex, stopIndex) {
+        console.log("进入selectText")
+        if (textbox.createTextRange) {//ie
+            const range = textbox.createTextRange();
+            range.collapse(true);
+            range.moveStart('character', startIndex);//起始光标
+            range.moveEnd('character', stopIndex - startIndex);//结束光标
+            range.select();//不兼容苹果
+        } else {//firefox/chrome
+            textbox.setSelectionRange(startIndex, stopIndex);
+            textbox.focus();
+        }
+    }
+
+};
 
 var qrcodeofmy = new QRCode(document.getElementById("qrcodeofmy"), {
     width: 100,
@@ -136,19 +192,19 @@ var qrcodeofmy = new QRCode(document.getElementById("qrcodeofmy"), {
 // 生成本机IP的二维码
 qrcodeofmy.makeCode(host)
 
-// document.getElementById("btn1").addEventListener("click", send_data);
 // 发送data到服务端 
 function send_data() {
+    var text_list = []
+
+    for (let index = 0; index < document.getElementsByClassName("text").length; index++) {
+        var textvalue =  document.getElementsByClassName("text")[index].value;
+        console.log(textvalue)
+        text_list.push(textvalue)
+    }
 
     data_to_py = {
-        "text": {
-            "text1": document.getElementById("text1").value,
-            // "text2": "",
-        },
-        "img": {
-            "img1": "",
+            "text": text_list
         }
-    }
     console.log("$$$$$$$$$$$$$$$$$$$$$$$$$")
     console.log(data_to_py)
     var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
@@ -163,41 +219,4 @@ function send_data() {
         }
     };
 
-}
-
-// 文件上载操作
-window.onload = function () {
-    var input = document.getElementById("demo_input"); //上传文件
-    var result = document.getElementById("result"); //这里展示base64文本
-    var img_area = document.getElementById("img_area"); //展示图片
-
-    if (typeof (FileReader) === 'undefined') {
-        result.innerHTML = "抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！";
-        input.setAttribute('disabled', 'disabled'); //设置input，就是那个上传按钮不能被点击
-    }
-
-    else {
-        input.addEventListener('change', readFile, false); //设置读取文件的冒泡事件监听
-    }
-}
-
-function readFile() {
-    var file = this.files[0];
-
-    //这里我们判断下类型如果不是图片就返回 去掉就可以上传任意文件   
-    // if (!/image\/\w+/.test(file.type)) {
-    //     alert("请确保文件为图像类型");
-    //     return false;
-    // }
-
-    var reader = new FileReader();
-    reader.readAsDataURL(file); //这个 result 为 DataURL, DataURL 可直接 赋值给 img.src 
-    console.log("嘤嘤嘤~~~~");
-    reader.onload = function (e) {
-        // result.innerHTML = this.result; //在textarea展示base64文档
-        // alert(this.result)
-        img_base64 = this.result
-        img_area.innerHTML = '<div class="sitetip"></div><img src="' + this.result + '" alt="" />';
-        // 展示图片
-    }
 }
