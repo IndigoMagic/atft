@@ -41,12 +41,12 @@ def get_code():
     global data
     data = request.json
     print("%s  ----------from js"% data)
-    return data
+    return jsonify(data)
 
 @app.route("/getdata/",methods=["GET"])
 def send_code():
     print("有人来要了个data")
-    return data
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(host=myip, port=5000)

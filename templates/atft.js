@@ -25,11 +25,12 @@ function get_data() {
                 autofocus>`+`</textarea><div id="qrcode1" class="qrcode"></div>
                 <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
                 </div>`
-                console.log("啥也没有~")
+                console.log("啥也没有~加一个")
                 var box_big = document.getElementsByClassName("container")[0];
                 console.log(box_big)
                 box_big.insertAdjacentHTML('beforeend', tpl_start)
-            }
+            } else {
+            document.getElementById("container").innerHTML = "";
             for (i = 0; i < data_form_server.text.length; i++) {
                 console.log(data_form_server.text[i])
                 // 要把遍历出来的数据传到页面的对应位置
@@ -44,6 +45,7 @@ function get_data() {
                 box_big.insertAdjacentHTML('beforeend', tpl_start)
 
             }
+        }
             addclick();
         }
     };
@@ -52,6 +54,37 @@ function get_data() {
 
 get_data();
 
+function lunxun(){
+    var text_list_ = []
+    for (let index = 0; index < document.getElementsByClassName("text").length; index++) {
+        var textvalue =  document.getElementsByClassName("text")[index].value;
+        text_list_.push(textvalue)
+    }
+    function get_data_only(text_l) {
+        console.log("轮询校验数据")
+        var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
+        httpRequest.open('GET', host + 'getdata/', true); //第二步：打开连接/***发送json格式文件必须设置请求头 ；如下 - */
+        httpRequest.setRequestHeader("Content-type", "application/json");//设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        httpRequest.send();//发送请求 将json写入send中
+        // 获取数据后的处理程序
+        httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
+            if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
+                var data_form_server_text = httpRequest.responseText;//获取到服务端返回的数据
+                var data_form_server = JSON.parse(data_form_server_text)
+                if (text_l.toString() != data_form_server.text.toString() ) {
+                    console.log("数据不一致，重新请求生成页面")
+                    location.reload();
+                } else {
+                    console.log("数据一致，无需处理")
+                }
+            }
+        };
+
+    }
+    get_data_only(text_list_);
+}
+
+// var lx = setInterval(function(){ lunxun() }, 100000);
 
 var tpl = `<div class="text_box">
 <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
@@ -101,15 +134,9 @@ function removeclick(){
 
 // addclick();
 
-function get_every_text(){
-    for (let index = 0; index < document.getElementsByClassName("text").length; index++) {
-        var textvalue =  document.getElementsByClassName("text")[index].value;
-        console.log(textvalue)
 
-    }
-}
 
-get_every_text();
+
 
 
 // 二维码生成
