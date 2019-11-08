@@ -118,7 +118,11 @@ document.getElementById("btndel").addEventListener("click", delbox);
 
 function addclick() {
     for (let index = 0; index < document.getElementsByClassName("btn_copy_text").length; index++) {
-        document.getElementsByClassName("btn_copy_text")[index].addEventListener("click", makeCodes(index));
+        // document.getElementsByClassName("btn_copy_text")[index].addEventListener("click", makeCodes(index));
+        var bct = document.getElementsByClassName("btn_copy_text")[index];
+        var $bct_jq = $(bct)
+        $bct_jq.on("click", makeCodes(index));
+
         document.getElementsByClassName("btn_copy_text")[index].addEventListener("click", send_data);
         console.log("现在给第"+index+"个按钮加点击事件")
     }
@@ -126,7 +130,12 @@ function addclick() {
 
 function removeclick(){
     for (let index = 0; index < document.getElementsByClassName("btn_copy_text").length; index++) {
-        document.getElementsByClassName("btn_copy_text")[index].removeEventListener("click", makeCodes(index));
+        // document.getElementsByClassName("btn_copy_text")[index].removeEventListener("click", makeCodes(index));
+        
+        var bct = document.getElementsByClassName("btn_copy_text")[index];
+        var $bct_jq = $(bct)
+        // $bct_jq.on("click", makeCodes(index));
+        $bct_jq.off('click');
         document.getElementsByClassName("btn_copy_text")[index].removeEventListener("click", send_data);
         console.log("现在删除第"+index+"个按钮的点击事件")
     }
@@ -142,7 +151,7 @@ function removeclick(){
 // 二维码生成
 function makeCodes(index) {
     return function(){
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        console.log("进入生成二维码")
         // console.log(index);
         // 获取胸弟元素的 值 TODO
         var main = document.getElementById("container").children[index];
@@ -171,7 +180,7 @@ function makeCodes(index) {
 function copyText(text,input) {
     // 数字没有 .length 不能执行selectText 需要转化成字符串
     console.log("进入copyText")
-    console.log(text)
+    console.log("这是"+text)
     const textString = text.toString();
     if (!input) {
         input = document.createElement('input');
@@ -189,11 +198,13 @@ function copyText(text,input) {
     selectText(input, 0, textString.length);
     if (document.execCommand('copy')) {
         document.execCommand('copy');
+        console.log("兼容！！")
         alert('已复制到粘贴板');
     } else {
         console.log('不兼容');
     }
     input.blur();
+    console.log("失焦完成，copy结束！！")
     // input自带的select()方法在苹果端无法进行选择，所以需要自己去写一个类似的方法
     // 选择文本。createTextRange(setSelectionRange)是input方法
     function selectText(textbox, startIndex, stopIndex) {
@@ -204,9 +215,11 @@ function copyText(text,input) {
             range.moveStart('character', startIndex);//起始光标
             range.moveEnd('character', stopIndex - startIndex);//结束光标
             range.select();//不兼容苹果
+            console.log("//ie")
         } else {//firefox/chrome
             textbox.setSelectionRange(startIndex, stopIndex);
             textbox.focus();
+            console.log("//firefox/chrome")
         }
     }
 
@@ -222,18 +235,19 @@ qrcodeofmy.makeCode(host)
 
 // 发送data到服务端 
 function send_data() {
+    console.log("开始准备发送数据到服务端")
     var text_list = []
 
     for (let index = 0; index < document.getElementsByClassName("text").length; index++) {
         var textvalue =  document.getElementsByClassName("text")[index].value;
-        console.log(textvalue)
+        // console.log(textvalue)
         text_list.push(textvalue)
     }
 
     data_to_py = {
             "text": text_list
         }
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$")
+    
     console.log(data_to_py)
     var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
     httpRequest.open('POST', host + 'savedata/', true); //第二步：打开连接/***发送json格式文件必须设置请求头 ；如下 - */
