@@ -3,7 +3,33 @@
 }
 
 @media screen and (min-width:434px) {
+    body {
+        width: 100%;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        align-items:flex-start;
+    }
+    #container {
+        display: inline-block;
+        width: 440px;
+        /* border: #D64078 2px solid; */
+    }
+    #container_of_pic {
+        display: inline-block;
 
+    }
+    #previewImg {
+        display: block;
+        max-width: 204px;
+        border: 2px solid #FDC72F;
+    }
+
+    .imgbox {
+        border: #D64078 2px solid;
+        width: 200px;
+        display: block;
+    }
     .qrcodeofmy_fixed {
         position: fixed;
         top: 0;
@@ -29,6 +55,7 @@
         position: relative;
         margin: 1% auto;
         max-width: 434px;
+        /* min-width: 433; */
         border: #4caf50 2px solid;
     
     }
@@ -48,16 +75,6 @@
         border: 2px solid #FDC72F;
     }
     
-    #btn_add_del {
-        position: fixed;
-        top: 160px;
-        right: 0;
-        width: 140px;
-        height: 40px;
-        border: #4caf50 3px solid;
-        background-color: antiquewhite;
-    }
-    
     .btn_copy_text {
         vertical-align: top;
         display: inline-block;
@@ -74,22 +91,145 @@
         transition: background-color .2s;
     }
     
+    #btn_add_pic {
+        position: relative;
+        width: 90px;
+        height: 30px;
+        margin: 2px;
+        text-align: center;
+        display: inline-block;
+        /* background-color: #4caf50; */
+        border: #4caf50 2px solid;
+        /* background-color: antiquewhite;  */
+    }
+    #del_pic{
+        cursor: default;
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        width: 90px;
+        height: 30px;
+        margin: 2px;
+        border: #4caf50 2px solid;
+        /* background-color: #4caf50;  */
+    }
+    #picture {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 140px;
+        height: 40px;
+    }
+
+    #pic_add_del {
+        width: 204px;
+        height: 40px;
+        border: white 3px solid;
+        background-color: white;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        align-items:center;
+    }
+
+    #btn_add_del {
+        position: fixed;
+        top: 160px;
+        right: 0;
+        width: 140px;
+        height: 40px;
+        border: #4caf50 3px solid;
+        background-color: antiquewhite;
+    }
+    
+
     #btnadd {
         display: inline-block;
         width: 50%;
         /* margin: 1em; */
         text-align: center;
+        cursor: default;
         border: #4caf50 3px solid;
     }
     #btndel {
         display: inline-block;
         width: 50%;
         /* margin: 1em; */
+        cursor: default;
         text-align: center;
         border: #4caf50 3px solid;
     }
   }
   @media screen and (max-width:433px) {
+
+    #container_of_pic {
+        display: block;
+
+    }
+    #previewImg {
+        margin:0 auto;
+        display: block;
+        max-width: 204px;
+        border: 2px solid #FDC72F;
+    }
+
+    .imgbox {
+        border: #D64078 2px solid;
+        width: 200px;
+        display: block;
+    }
+    #btn_add_pic {
+        margin:0 auto;
+        position: relative;
+        width: 90px;
+        height: 30px;
+        margin: 2px;
+        text-align: center;
+        display: inline-block;
+        /* background-color: #4caf50; */
+        border: #4caf50 2px solid;
+        /* background-color: antiquewhite;  */
+    }
+    #del_pic{
+        cursor: default;
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        width: 90px;
+        height: 30px;
+        margin: 2px;
+        border: #4caf50 2px solid;
+        /* background-color: #4caf50;  */
+    }
+    #picture {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 140px;
+        height: 40px;
+    }
+
+    #pic_add_del {
+        position: fixed;
+        bottom: 40px;
+        right: 0;
+        width: 100%;
+        /* width: 204px; */
+        height: 40px;
+        border: white 3px solid;
+        background-color: white;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        align-items:center;
+    }
+
+    
+
     #btnadd {
         display: inline-block;
         width: 50%;
@@ -113,10 +253,11 @@
         height: 40px;
         border: #4caf50 3px solid;
         background-color: antiquewhite;
+        z-index: 10;
     }
 
     body {
-        margin-bottom: 60px;
+        margin-bottom: 90px;
     }
     .qrcodeofmy_fixed {
         display: none;

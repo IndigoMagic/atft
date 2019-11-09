@@ -6,12 +6,11 @@ from flask import request, jsonify
 def get_host_ip():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(('www.baidu.com', 0))
+        s.connect(('8.8.8.8', 80))
         ip = s.getsockname()[0]
         print(ip)
-        print("haha")
     except:
-        ip = "127.0.0.1"
+        ip = input("请输入你的IP地址（格式如：192.168.12.13）")
     finally:
         s.close()
     return ip
@@ -22,7 +21,8 @@ app.debug = True
 global data
 
 data = {
-    "text":[]
+    "text":[],
+    "img":[]
 }
 
 cishu = 0

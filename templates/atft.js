@@ -46,6 +46,23 @@ function get_data() {
 
             }
         }
+
+        if (data_form_server.img.length < 1) {
+            console.log("没有图片")
+        } else {
+        document.getElementById("previewImg").innerHTML = "";
+        for (i = 0; i < data_form_server.img.length; i++) {
+            console.log(data_form_server.img[i])
+            // 要把遍历出来的数据传到页面的对应位置
+            var img_start = `<img class="imgbox" width="200" src=`+data_form_server.img[i]+`>`
+            console.log("这是第"+i+"次循环")
+            var box_big = document.getElementById("previewImg");
+            console.log(box_big)
+            box_big.insertAdjacentHTML('beforeend', img_start)
+        }
+    
+    }
+    img_base64_list = data_form_server.img
             addclick();
         }
     };
@@ -83,9 +100,7 @@ function lunxun(){
     }
     get_data_only(text_list_);
 }
-
 // var lx = setInterval(function(){ lunxun() }, 100000);
-
 var tpl = `<div class="text_box">
 <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
     autofocus></textarea><div id="qrcode1" class="qrcode"></div>
@@ -114,8 +129,6 @@ function delbox() {
 
 document.getElementById("btndel").addEventListener("click", delbox);
 
-
-
 function addclick() {
     for (let index = 0; index < document.getElementsByClassName("btn_copy_text").length; index++) {
         // document.getElementsByClassName("btn_copy_text")[index].addEventListener("click", makeCodes(index));
@@ -140,13 +153,6 @@ function removeclick(){
         console.log("现在删除第"+index+"个按钮的点击事件")
     }
 }
-
-// addclick();
-
-
-
-
-
 
 // 二维码生成
 function makeCodes(index) {
@@ -240,12 +246,18 @@ function send_data() {
 
     for (let index = 0; index < document.getElementsByClassName("text").length; index++) {
         var textvalue =  document.getElementsByClassName("text")[index].value;
-        // console.log(textvalue)
+        console.log(textvalue)
+        console.log("$$$$$$$$")
         text_list.push(textvalue)
     }
+    console.log(text_list)
+    console.log("$$$$$$$$")
+    console.log(typeof(text_list))
+
 
     data_to_py = {
-            "text": text_list
+            "text": text_list,
+            "img":img_base64_list
         }
     
     console.log(data_to_py)
@@ -260,5 +272,58 @@ function send_data() {
             console.log(json);
         }
     };
+
+}
+
+
+$('#picture').on('change', function(){
+    var imgFiles = $(this)[0].files
+
+    for (i=0;i<imgFiles.length;i++){
+        filePath = imgFiles[i].name
+        fileFormat = filePath.split('.')[filePath.split('.').length -1].toLowerCase()  
+        console.log(filePath)
+        console.log(fileFormat)
+        src = window.URL.createObjectURL(imgFiles[i])
+        // if( !fileFormat.match(/png|jpg|gif|jpeg/) ) {  
+        //     alert('上传错误,文件格式必须为：png/jpg/jpeg')
+        //     // return 
+        //     break  
+        // }
+
+        var reader = new FileReader();
+        reader.readAsDataURL(imgFiles[i]); //这个 result 为 DataURL, DataURL 可直接 赋值给 img.src 
+        reader.onload = function (e) {
+            img_base64 = this.result
+            img_base64_list.push(img_base64)
+            console.log(img_base64_list)
+            send_data();
+        }
+
+        var preview = document.getElementById("previewImg")
+        var img = document.createElement('img')
+        img.width = 200
+        // img.height = 200
+        img.src = src
+        img.className = "imgbox"
+        preview.appendChild(img)
+    }
+})
+
+document.getElementById("del_pic").addEventListener("click", delpic);
+function delpic (){
+    var preview = document.getElementById("previewImg")
+    var img = document.getElementsByClassName('imgbox')[document.getElementsByClassName("imgbox").length - 1];
+    console.log(document.getElementsByClassName("imgbox").length)
+    console.log(document.getElementsByClassName("imgbox"))
+    if (document.getElementsByClassName("imgbox").length < 1) {
+        console.log("没有你删啥？");
+    } else {
+        preview.removeChild(img)
+        // delete img_base64_list[img_base64_list.length - 1];
+        img_base64_list.length = img_base64_list.length -1;
+        console.log("del a Pic OK");
+        send_data();
+    }
 
 }

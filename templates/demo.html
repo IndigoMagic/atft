@@ -11,13 +11,30 @@
 </head>
 
 <body>
+    <div id="btn_add_del"><div id="btnadd">增加</div><div id="btndel">删除</div></div>
+
     <div class="qrcodeofmy_fixed">
         <p>本页的二维码</p>
         <div id="qrcodeofmy"></div>
     </div>
+
+
     <div class="container" id="container">
     </div>
-    <div id="btn_add_del"><div id="btnadd">增加</div><div id="btndel">删除</div></div>
+    
+    
+
+
+    <div id="container_of_pic">
+            <div id="pic_add_del">
+        <div id="btn_add_pic">上传图片
+        <input type="file" id="picture" multiple/>
+        </div>
+        <div id="del_pic">删除图片</div>
+    </div>
+        <div id="previewImg"></div>
+    </div>
+
 </body>
 <!-- <script type="text/javascript" src="./atft.js"></script> -->
 <script type="text/javascript" src="{{ url_for('static',filename='atft.js') }}"></script>
