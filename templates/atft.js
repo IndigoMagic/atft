@@ -71,6 +71,71 @@ function get_data() {
 
 get_data();
 
+function get_data_from_backup(){
+    console.log("页面加载之初步就请求来data数据")
+    var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
+    httpRequest.open('GET', host + 'getdatafrombackup/', true); //第二步：打开连接,发送json格式文件必须设置请求头 ；如下 - */
+    httpRequest.setRequestHeader("Content-type", "application/json");//设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+    httpRequest.send();//发送请求 将json写入send中
+    // 获取数据后的处理程序
+    httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
+        if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
+            var data_form_server_text = httpRequest.responseText;//获取到服务端返回的数据
+            console.log(typeof(data_form_server_text))
+            console.log(data_form_server_text);
+            var data_form_server = JSON.parse(data_form_server_text)
+
+            if (data_form_server.text.length < 1) {
+                var tpl_start = `<div class="text_box">
+                <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
+                autofocus>`+`</textarea><div id="qrcode1" class="qrcode"></div>
+                <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
+                </div>`
+                console.log("啥也没有~加一个")
+                var box_big = document.getElementsByClassName("container")[0];
+                console.log(box_big)
+                box_big.insertAdjacentHTML('beforeend', tpl_start)
+            } else {
+            document.getElementById("container").innerHTML = "";
+            for (i = 0; i < data_form_server.text.length; i++) {
+                console.log(data_form_server.text[i])
+                // 要把遍历出来的数据传到页面的对应位置
+                var tpl_start = `<div class="text_box">
+                <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
+                autofocus>`+data_form_server.text[i]+`</textarea><div id="qrcode1" class="qrcode"></div>
+                <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
+                </div>`
+                console.log("这是第"+i+"次循环")
+                var box_big = document.getElementsByClassName("container")[0];
+                console.log(box_big)
+                box_big.insertAdjacentHTML('beforeend', tpl_start)
+
+            }
+        }
+
+        if (data_form_server.img.length < 1) {
+            console.log("没有图片")
+        } else {
+        document.getElementById("previewImg").innerHTML = "";
+        for (i = 0; i < data_form_server.img.length; i++) {
+            console.log(data_form_server.img[i])
+            // 要把遍历出来的数据传到页面的对应位置
+            var img_start = `<img class="imgbox" width="200" src=`+data_form_server.img[i]+`>`
+            console.log("这是第"+i+"次循环")
+            var box_big = document.getElementById("previewImg");
+            console.log(box_big)
+            box_big.insertAdjacentHTML('beforeend', img_start)
+        }
+    
+    }
+    img_base64_list = data_form_server.img
+            addclick();
+            send_data();
+        }
+    };
+}
+document.getElementById("get_data_from_backup").addEventListener("click", get_data_from_backup)
+
 function lunxun(){
     var text_list_ = []
     for (let index = 0; index < document.getElementsByClassName("text").length; index++) {

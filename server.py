@@ -2,6 +2,19 @@ from flask import Flask,render_template
 import socket
 import json
 from flask import request, jsonify
+
+
+backup_file_path = "./backup_data.json"
+def write_json_in_file(backup_file_path,json_data):
+    with open(backup_file_path, "w",encoding='utf-8') as f:
+        json.dump(json_data,f,ensure_ascii=False)
+        print("写入json文件完成...")
+
+def read_json_in_file(backup_file_path):
+    with open(backup_file_path, "r+",encoding='utf-8') as f:
+        data_from_file = json.load(f)
+        return data_from_file
+
 # 这是获取当前脚本运行的机器的IP
 def get_host_ip():
     try:
@@ -41,11 +54,19 @@ def get_code():
     global data
     data = request.json
     print("%s  ----------from js"% data)
+    write_json_in_file(backup_file_path,data)
     return jsonify(data)
 
 @app.route("/getdata/",methods=["GET"])
 def send_code():
     print("有人来要了个data")
+    return jsonify(data)
+
+@app.route("/getdatafrombackup/",methods=["GET"])
+def getdatafrombackup():
+    data = read_json_in_file(backup_file_path)
+    print("data已经从备份文件中读取出来")
+    print(data)
     return jsonify(data)
 
 if __name__ == '__main__':
