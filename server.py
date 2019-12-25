@@ -49,7 +49,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))  # 获取当前项目的绝
 
 
 def get_filelist(uppath):
-    filedir = os.listdir(uppath)
+    if os.path.exists(uppath):
+        filedir = os.listdir(uppath)
+    else:
+        os.mkdir(uppath)
+        filedir = os.listdir(uppath)
     return filedir
 
 
