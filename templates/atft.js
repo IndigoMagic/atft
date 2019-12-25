@@ -1,69 +1,82 @@
-
 console.log("start!!!!!!!!!!!!!!!!!")
 var domain = document.domain;
 console.log(domain)
-host = "http://"+domain+":5000/"
+host = "http://" + domain + ":5000/"
+
+function bornfilelist(filenamelist) {
+    for (i = 0; i < filenamelist.length; i++) {
+        var filename = filenamelist[i]
+        var filelistonhtmlbox = document.getElementById("filelist")
+        var filenameonhtml = document.createElement('a')
+        filenameonhtml.href = host + "downloadfile/" + filename
+        filenameonhtml.innerHTML = filename
+        filenameonhtml.className = "filenamefromserver"
+        filelistonhtmlbox.appendChild(filenameonhtml)
+    }
+}
+
+function borntextbox(textlistfromserver) {
+
+    if (textlistfromserver.length < 1) {
+        document.getElementById("container").innerHTML = "";
+        var tpl_start = `<div class="text_box">
+        <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
+        autofocus>`+ `</textarea><div id="qrcode1" class="qrcode"></div>
+        <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
+        </div>`
+        console.log("啥也没有~加一个")
+        var box_big = document.getElementsByClassName("container")[0];
+        console.log(box_big)
+        box_big.insertAdjacentHTML('beforeend', tpl_start)
+
+    } else {
+        document.getElementById("container").innerHTML = "";
+        for (i = 0; i < textlistfromserver.length; i++) {
+            // console.log(textlistfromserver[i])
+            // 要把遍历出来的数据传到页面的对应位置
+            var tpl_start = `<div class="text_box">
+        <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
+        autofocus>`+ textlistfromserver[i] + `</textarea><div id="qrcode1" class="qrcode"></div>
+        <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
+        </div>`
+            console.log("这是第" + i + "次循环")
+            var box_big = document.getElementsByClassName("container")[0];
+            console.log(box_big)
+            box_big.insertAdjacentHTML('beforeend', tpl_start)
+
+        }
+    }
+}
+
 function get_data() {
     console.log("页面加载之初步就请求来data数据")
     var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
-    console.log(host);
-    console.log(host + 'getdata/');
-    httpRequest.open('GET', host + 'getdata/', true); //第二步：打开连接/***发送json格式文件必须设置请求头 ；如下 - */
+    httpRequest.open('GET', host + 'getdata/', true); //第二步：打开连接,发送json格式文件必须设置请求头 ；如下 - */
     httpRequest.setRequestHeader("Content-type", "application/json");//设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
     httpRequest.send();//发送请求 将json写入send中
     // 获取数据后的处理程序
     httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
         if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
             var data_form_server_text = httpRequest.responseText;//获取到服务端返回的数据
-            console.log(typeof(data_form_server_text))
-            console.log(data_form_server_text);
             var data_form_server = JSON.parse(data_form_server_text)
-
-            if (data_form_server.text.length < 1) {
-                var tpl_start = `<div class="text_box">
-                <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
-                autofocus>`+`</textarea><div id="qrcode1" class="qrcode"></div>
-                <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
-                </div>`
-                console.log("啥也没有~加一个")
-                var box_big = document.getElementsByClassName("container")[0];
-                console.log(box_big)
-                box_big.insertAdjacentHTML('beforeend', tpl_start)
+            var textlistfromserver = data_form_server.text
+            borntextbox(textlistfromserver)
+            if (data_form_server.img.length < 1) {
+                console.log("没有图片")
             } else {
-            document.getElementById("container").innerHTML = "";
-            for (i = 0; i < data_form_server.text.length; i++) {
-                console.log(data_form_server.text[i])
-                // 要把遍历出来的数据传到页面的对应位置
-                var tpl_start = `<div class="text_box">
-                <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
-                autofocus>`+data_form_server.text[i]+`</textarea><div id="qrcode1" class="qrcode"></div>
-                <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
-                </div>`
-                console.log("这是第"+i+"次循环")
-                var box_big = document.getElementsByClassName("container")[0];
-                console.log(box_big)
-                box_big.insertAdjacentHTML('beforeend', tpl_start)
+                document.getElementById("previewImg").innerHTML = "";
+                for (i = 0; i < data_form_server.img.length; i++) {
+                    var img_start = `<img class="imgbox" width="200" src=` + data_form_server.img[i] + `>`
+                    var box_big = document.getElementById("previewImg");
+                    box_big.insertAdjacentHTML('beforeend', img_start)
+                }
 
             }
-        }
-
-        if (data_form_server.img.length < 1) {
-            console.log("没有图片")
-        } else {
-        document.getElementById("previewImg").innerHTML = "";
-        for (i = 0; i < data_form_server.img.length; i++) {
-            console.log(data_form_server.img[i])
-            // 要把遍历出来的数据传到页面的对应位置
-            var img_start = `<img class="imgbox" width="200" src=`+data_form_server.img[i]+`>`
-            console.log("这是第"+i+"次循环")
-            var box_big = document.getElementById("previewImg");
-            console.log(box_big)
-            box_big.insertAdjacentHTML('beforeend', img_start)
-        }
-    
-    }
-    img_base64_list = data_form_server.img
+            img_base64_list = data_form_server.img
             addclick();
+            var filenamelist = data_form_server.filenamelist
+            bornfilelist(filenamelist)
+            console.log("生成文件下载列表成功")
         }
     };
 
@@ -71,7 +84,7 @@ function get_data() {
 
 get_data();
 
-function get_data_from_backup(){
+function get_data_from_backup() {
     console.log("页面加载之初步就请求来data数据")
     var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
     httpRequest.open('GET', host + 'getdatafrombackup/', true); //第二步：打开连接,发送json格式文件必须设置请求头 ；如下 - */
@@ -81,54 +94,24 @@ function get_data_from_backup(){
     httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
         if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
             var data_form_server_text = httpRequest.responseText;//获取到服务端返回的数据
-            console.log(typeof(data_form_server_text))
-            console.log(data_form_server_text);
             var data_form_server = JSON.parse(data_form_server_text)
-
-            if (data_form_server.text.length < 1) {
-                var tpl_start = `<div class="text_box">
-                <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
-                autofocus>`+`</textarea><div id="qrcode1" class="qrcode"></div>
-                <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
-                </div>`
-                console.log("啥也没有~加一个")
-                var box_big = document.getElementsByClassName("container")[0];
-                console.log(box_big)
-                box_big.insertAdjacentHTML('beforeend', tpl_start)
+            var textlistfromserver = data_form_server.text
+            borntextbox(textlistfromserver)
+            if (data_form_server.img.length < 1) {
+                console.log("没有图片")
             } else {
-            document.getElementById("container").innerHTML = "";
-            for (i = 0; i < data_form_server.text.length; i++) {
-                console.log(data_form_server.text[i])
-                // 要把遍历出来的数据传到页面的对应位置
-                var tpl_start = `<div class="text_box">
-                <textarea name="texttocode" id="text1" class="text" cols="40" rows="7" placeholder="请输入文本！"
-                autofocus>`+data_form_server.text[i]+`</textarea><div id="qrcode1" class="qrcode"></div>
-                <div class="btn_copy_text" id="btn1">Copy<br>and<br>QR</div>
-                </div>`
-                console.log("这是第"+i+"次循环")
-                var box_big = document.getElementsByClassName("container")[0];
-                console.log(box_big)
-                box_big.insertAdjacentHTML('beforeend', tpl_start)
-
+                document.getElementById("previewImg").innerHTML = "";
+                for (i = 0; i < data_form_server.img.length; i++) {
+                    console.log(data_form_server.img[i])
+                    // 要把遍历出来的数据传到页面的对应位置
+                    var img_start = `<img class="imgbox" width="200" src=` + data_form_server.img[i] + `>`
+                    console.log("这是第" + i + "次循环")
+                    var box_big = document.getElementById("previewImg");
+                    console.log(box_big)
+                    box_big.insertAdjacentHTML('beforeend', img_start)
+                }
             }
-        }
-
-        if (data_form_server.img.length < 1) {
-            console.log("没有图片")
-        } else {
-        document.getElementById("previewImg").innerHTML = "";
-        for (i = 0; i < data_form_server.img.length; i++) {
-            console.log(data_form_server.img[i])
-            // 要把遍历出来的数据传到页面的对应位置
-            var img_start = `<img class="imgbox" width="200" src=`+data_form_server.img[i]+`>`
-            console.log("这是第"+i+"次循环")
-            var box_big = document.getElementById("previewImg");
-            console.log(box_big)
-            box_big.insertAdjacentHTML('beforeend', img_start)
-        }
-    
-    }
-    img_base64_list = data_form_server.img
+            img_base64_list = data_form_server.img
             addclick();
             send_data();
         }
@@ -136,10 +119,42 @@ function get_data_from_backup(){
 }
 document.getElementById("get_data_from_backup").addEventListener("click", get_data_from_backup)
 
-function lunxun(){
+
+var imgs = []; //存储图片链接
+//为文件上传添加change事件
+var fileM = document.getElementById("fileup");
+$("#fileup").on("change", function () {
+    console.log(fileM.files);
+
+    var fileObj = fileM.files;
+    var formData = new FormData();
+    for (var i = 0; i < fileObj.length; i++) {
+        formData.append("file", fileObj[i]);
+    }
+    // formData.append('file', fileObj);
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open("POST", host + 'uploadfile/', true);
+    httpRequest.send(formData);
+    httpRequest.onreadystatechange = function () {
+        if (httpRequest.readyState == 4) {
+            if (httpRequest.status >= 200 && httpRequest.status < 300 || httpRequest.status == 304) {
+                console.log("上传成功");
+                var obj = JSON.parse(httpRequest.responseText);
+                var filenamelist = obj.filenamelist
+                bornfilelist(filenamelist)
+
+            }
+        }
+    }
+});
+
+
+
+
+function lunxun() {
     var text_list_ = []
     for (let index = 0; index < document.getElementsByClassName("text").length; index++) {
-        var textvalue =  document.getElementsByClassName("text")[index].value;
+        var textvalue = document.getElementsByClassName("text")[index].value;
         text_list_.push(textvalue)
     }
     function get_data_only(text_l) {
@@ -153,7 +168,7 @@ function lunxun(){
             if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
                 var data_form_server_text = httpRequest.responseText;//获取到服务端返回的数据
                 var data_form_server = JSON.parse(data_form_server_text)
-                if (text_l.toString() != data_form_server.text.toString() ) {
+                if (text_l.toString() != data_form_server.text.toString()) {
                     console.log("数据不一致，重新请求生成页面")
                     location.reload();
                 } else {
@@ -202,26 +217,25 @@ function addclick() {
         $bct_jq.on("click", makeCodes(index));
 
         document.getElementsByClassName("btn_copy_text")[index].addEventListener("click", send_data);
-        console.log("现在给第"+index+"个按钮加点击事件")
+        console.log("现在给第" + index + "个按钮加点击事件")
     }
 }
 
-function removeclick(){
+function removeclick() {
     for (let index = 0; index < document.getElementsByClassName("btn_copy_text").length; index++) {
         // document.getElementsByClassName("btn_copy_text")[index].removeEventListener("click", makeCodes(index));
-        
+
         var bct = document.getElementsByClassName("btn_copy_text")[index];
         var $bct_jq = $(bct)
-        // $bct_jq.on("click", makeCodes(index));
         $bct_jq.off('click');
         document.getElementsByClassName("btn_copy_text")[index].removeEventListener("click", send_data);
-        console.log("现在删除第"+index+"个按钮的点击事件")
+        console.log("现在删除第" + index + "个按钮的点击事件")
     }
 }
 
 // 二维码生成
 function makeCodes(index) {
-    return function(){
+    return function () {
         console.log("进入生成二维码")
         // console.log(index);
         // 获取胸弟元素的 值 TODO
@@ -238,20 +252,19 @@ function makeCodes(index) {
             elText.focus();
             return;
         }
-        copyText(elText.value,input)
+        copyText(elText.value, input)
         // elText.select(); // 选中文本
         // document.execCommand("copy"); // 执行浏览器复制命令
         // alert("复制成功");
 
         qrcode.makeCode(elText.value);
     }
-    
 }
 
-function copyText(text,input) {
+function copyText(text, input) {
     // 数字没有 .length 不能执行selectText 需要转化成字符串
     console.log("进入copyText")
-    console.log("这是"+text)
+    console.log("这是" + text)
     const textString = text.toString();
     if (!input) {
         input = document.createElement('input');
@@ -300,31 +313,29 @@ var qrcodeofmy = new QRCode(document.getElementById("qrcodeofmy"), {
     width: 100,
     height: 100
 });
-
 // 生成本机IP的二维码
 qrcodeofmy.makeCode(host)
-
 // 发送data到服务端 
 function send_data() {
     console.log("开始准备发送数据到服务端")
     var text_list = []
 
     for (let index = 0; index < document.getElementsByClassName("text").length; index++) {
-        var textvalue =  document.getElementsByClassName("text")[index].value;
+        var textvalue = document.getElementsByClassName("text")[index].value;
         console.log(textvalue)
         console.log("$$$$$$$$")
         text_list.push(textvalue)
     }
     console.log(text_list)
     console.log("$$$$$$$$")
-    console.log(typeof(text_list))
+    console.log(typeof (text_list))
 
 
     data_to_py = {
-            "text": text_list,
-            "img":img_base64_list
-        }
-    
+        "text": text_list,
+        "img": img_base64_list
+    }
+
     console.log(data_to_py)
     var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
     httpRequest.open('POST', host + 'savedata/', true); //第二步：打开连接/***发送json格式文件必须设置请求头 ；如下 - */
@@ -340,13 +351,12 @@ function send_data() {
 
 }
 
-
-$('#picture').on('change', function(){
+$('#picture').on('change', function () {
     var imgFiles = $(this)[0].files
 
-    for (i=0;i<imgFiles.length;i++){
+    for (i = 0; i < imgFiles.length; i++) {
         filePath = imgFiles[i].name
-        fileFormat = filePath.split('.')[filePath.split('.').length -1].toLowerCase()  
+        fileFormat = filePath.split('.')[filePath.split('.').length - 1].toLowerCase()
         console.log(filePath)
         console.log(fileFormat)
         src = window.URL.createObjectURL(imgFiles[i])
@@ -376,7 +386,7 @@ $('#picture').on('change', function(){
 })
 
 document.getElementById("del_pic").addEventListener("click", delpic);
-function delpic (){
+function delpic() {
     var preview = document.getElementById("previewImg")
     var img = document.getElementsByClassName('imgbox')[document.getElementsByClassName("imgbox").length - 1];
     console.log(document.getElementsByClassName("imgbox").length)
@@ -386,7 +396,7 @@ function delpic (){
     } else {
         preview.removeChild(img)
         // delete img_base64_list[img_base64_list.length - 1];
-        img_base64_list.length = img_base64_list.length -1;
+        img_base64_list.length = img_base64_list.length - 1;
         console.log("del a Pic OK");
         send_data();
     }

@@ -3,6 +3,7 @@
 }
 
 @media screen and (min-width:434px) {
+    
     body {
         width: 100%;
         display: flex;
@@ -10,9 +11,52 @@
         justify-content: center;
         align-items:flex-start;
     }
+
+    #filelisttitle {
+        text-align: center;
+    }
+
+    a:link {background:black;color:blanchedalmond;word-wrap:break-word;}    /* 未被访问的链接 */
+    a:visited {background:#FFFF85;color:gray;word-wrap:break-word;} /* 已被访问的链接 */
+    a:hover {background:#FF704D;word-wrap:break-word;}  
+     /* 鼠标指针移动到链接上 */
+    a:active {background:#FF704D;word-wrap:break-word;}  /* 正在被点击的链接 */
+
+
+    #fileupbox {
+        position: relative;
+        width: 90px;
+        height: 30px;
+        margin: 2px;
+        text-align: center;
+        display: inline-block;
+        /* background-color: #4caf50; */
+        border: #D64078 2px solid;
+    }
+
+    #fileup {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 140px;
+        height: 40px;
+    }
+
+    #filelist{
+        display: inline-block;
+        margin: 2px;
+        width: 200px;
+        border: #D64078 2px solid;
+    }
+    .filenamefromserver{
+        display: block;
+    }
+
     #get_data_from_backup {
         position: fixed;
-        top: 0;
+        top: 8px;
         left: 0;
         display: inline-block;
         width: 100px;
@@ -22,6 +66,7 @@
         border: #4caf50 3px solid;
         background-color: antiquewhite;
     }
+
     #container {
         display: inline-block;
         width: 440px;
@@ -175,6 +220,61 @@
     }
   }
   @media screen and (max-width:433px) {
+
+    #filelisttitle {
+        text-align: center;
+    }
+
+    a:link {background:black;color:blanchedalmond;word-wrap:break-word;}    /* 未被访问的链接 */
+    a:visited {background:#FFFF85;color:gray;word-wrap:break-word;} /* 已被访问的链接 */
+    a:hover {background:#FF704D;word-wrap:break-word;}  
+     /* 鼠标指针移动到链接上 */
+    a:active {background:#FF704D;word-wrap:break-word;}  /* 正在被点击的链接 */
+
+
+    #fileupbox {
+        position: relative;
+        width: 100%;
+        height: 40px;
+        margin: 0;
+        text-align: center;
+        display: block;
+        /* background-color: #4caf50; */
+        display: flex;
+        display: -webkit-flex;
+        border: #D64078 2px solid;
+        background-color: turquoise;
+        align-items:center;
+        justify-content: center;
+        cursor: default;
+        text-align: center;
+        
+    }
+
+    #fileup {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 40px;
+    }
+
+    #filelist{
+        display: inline-block;
+        position: relative;
+        margin: 0;
+        width: 100%;
+        border: #D64078 2px solid;
+        background-color: white;
+    }
+    .filenamefromserver{
+        display: block;
+    }
+
+
+
     #get_data_from_backup {
         position: fixed;
         top: 0;
@@ -191,6 +291,7 @@
         justify-content: center;
         align-items:center;
     }
+
     #container_of_pic {
         display: block;
 
@@ -236,8 +337,8 @@
         left: 0;
         opacity: 0;
         cursor: pointer;
-        width: 140px;
-        height: 40px;
+        width: 90px;
+        height: 30px;
     }
 
     #pic_add_del {
